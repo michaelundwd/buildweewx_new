@@ -1,4 +1,4 @@
-# weewx_dev
+# buildweewx_new
 
 This is the development version of a two stage dockerfile for weewx. This approach minimises the size of the final image/container.
 
