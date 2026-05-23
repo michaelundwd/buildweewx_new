@@ -62,6 +62,8 @@ FROM python:trixie AS build-stage
       && find /home/weewx/weewx-venv -type d -name __pycache__ -exec rm -rf {} + 2>/dev/null || true \
       && find /home/weewx/weewx-venv -type f -name '*.pyc' -delete 2>/dev/null || true
 
+  RUN ls -l ~/weewx/src
+  
   RUN . /home/weewx/weewx-venv/bin/activate \
       && python3 ~/weewx/src/weectl.py station create --no-prompt
 
