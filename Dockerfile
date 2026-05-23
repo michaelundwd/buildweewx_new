@@ -11,11 +11,11 @@ FROM python:trixie AS build-stage
   LABEL MAINTAINED_BY="Michael Underwood"
   LABEL FORKED_FROM="https://github.com/mitct02/docker-weewx by Tom Mitchell <tom@tom.org>"
   ENV VERSION=weewx_52_b16:v2
-  ENV TAG=v5.2.0
+  ENV TAG=<tag>
   ENV HOME=/home/weewx
   ENV WEEWX_ROOT=$HOME/weewx-data
-  ENV WEEWX_VERSION=5.2.0
-  ENV BELCHERTOWN_VERSION="v1.6"
+  ENV WEEWX_VERSION=<weewx_version>
+  ENV BELCHERTOWN_VERSION=<belchertown_version>
   ENV TZ=Europe/London
   ENV LANG=en_GB.UTF-8
   
@@ -49,7 +49,7 @@ FROM python:trixie AS build-stage
           pyusb \
           requests
 
-  RUN git clone https://github.com/weewx/weewx.git ~/weewx \
+  RUN git clone https://github.com/weewx/weewx/archive/refs/tags/$WEEWX_VERSION.tar.gz ~/weewx \
       && cd ~/weewx \
       && git checkout $TAG \
       && rm -rf ~/weewx/.git \
