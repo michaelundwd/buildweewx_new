@@ -59,10 +59,10 @@ FROM python:trixie AS build-stage
 
 #   RUN git clone https://github.com/weewx/weewx.git ~/weewx \
   RUN git download https://github.com/weewx/weewx.git ~/weewx \
-#   RUN wget -P ~/weewx https://github.com/weewx/weewx.git \
+#   RUN wget -P ~/weewx https://github.com/weewx/weewx/archive/refs/tags/v5.3.1.tar.gz \
       && cd ~/weewx \
+      && tar -xzf v5.3.1.tar.gz
 
-# tar would go in here for a tar.gz file
 
 #      && git checkout $TAG \
 #      && rm -rf ~/weewx/.git \
