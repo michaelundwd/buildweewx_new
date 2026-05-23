@@ -71,7 +71,7 @@ FROM python:trixie AS build-stage
     && . /home/weewx/weewx-venv/bin/activate \
     ## Belchertown extension - fixed version number for now - use ENV version when debugged
     ## Note that install can take place from .tar.gz and .zip files
-    && wget -O belchertown-new.tar.gz https://github.com/uajqq/weewx-belchertown-new/archive/refs/tags/$BELCHERTOWN_VERSION.tar.gz \
+    && wget -O belchertown-new.tar.gz https://github.com/uajqq/weewx-belchertown-new/archive/refs/tags/$BELCHERTOWN_VERSION-new-belchertown.tar.gz \
     && python3 ~/weewx/src/weectl.py extension install -y belchertown-new.tar.gz \
     ## Interceptor Driver
     && wget -O weewx-interceptor.zip https://github.com/matthewwall/weewx-interceptor/archive/master.zip \
