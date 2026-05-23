@@ -1,23 +1,28 @@
 # LORDSHIPWEATHER.UK docker image (weewx)
 # Forked from https://github.com/tomdotorg/docker-weewx
-# for two-stage dockerfile
-#     debian:trixie
-#     WeeWX 5.2
-#     Belchertown 1.6
+# Two-stage dockerfile created for use by buildweex script
+#     buildweewx stores user-defined ENV variables in version.txt
+#     The build uses a local version of the github files
+#     so that the ENV parameters can be edited into the local Dockerfile
+#     Version (from version.txt line 1)
+#     WeeWX version  (from version.txt line 2)
+#     Belchertown  (from version.txt line 3)
+#     The OS is debian:trixie; 
 # This version last updated 22/05/2026
 
 FROM python:trixie AS build-stage
 
   LABEL MAINTAINED_BY="Michael Underwood"
   LABEL FORKED_FROM="https://github.com/mitct02/docker-weewx by Tom Mitchell <tom@tom.org>"
-  ENV VERSION=weewx_52_b16:v2
+  ENV VERSION=<tag>
   ENV TAG=<tag>
-  ENV HOME=/home/weewx
-  ENV WEEWX_ROOT=$HOME/weewx-data
   ENV WEEWX_VERSION=<weewx_version>
   ENV BELCHERTOWN_VERSION=<belchertown_version>
-  ENV TZ=Europe/London
+  
+  ENV HOME=/home/weewx
   ENV LANG=en_GB.UTF-8
+  ENV TZ=Europe/London
+  ENV WEEWX_ROOT=$HOME/weewx-data
   
   RUN apt-get update \
       && apt-get install --no-install-recommends -y \
