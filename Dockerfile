@@ -58,7 +58,7 @@ FROM python:trixie AS build-stage
 
 
 #   RUN git clone https://github.com/weewx/weewx.git ~/weewx \
-  RUN git download https://github.com/weewx/archive/refs/tags/$WEEWX_VERSION.tar.gz ~/weewx \
+  RUN git download https://github.com/weewx/weewx.git ~/weewx \
 #   RUN wget -P ~/weewx https://github.com/weewx/weewx.git \
       && cd ~/weewx \
       && git checkout $TAG \
