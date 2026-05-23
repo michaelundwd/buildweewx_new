@@ -60,12 +60,12 @@ FROM python:trixie AS build-stage
 #   RUN git clone https://github.com/weewx/weewx.git ~/weewx \
   RUN git download https://github.com/weewx/weewx.git ~/weewx \
 #   RUN wget -P ~/weewx https://github.com/weewx/weewx.git \
-      && cd ~/weewx \
-      && git checkout $TAG \
-      && rm -rf ~/weewx/.git \
-      && rm -rf ~/weewx/docs ~/weewx/tests ~/weewx/.github ~/weewx/examples \
-      && find /home/weewx/weewx-venv -type d -name __pycache__ -exec rm -rf {} + 2>/dev/null || true \
-      && find /home/weewx/weewx-venv -type f -name '*.pyc' -delete 2>/dev/null || true
+      && cd ~/weewx 
+#      && git checkout $TAG \
+#      && rm -rf ~/weewx/.git \
+#      && rm -rf ~/weewx/docs ~/weewx/tests ~/weewx/.github ~/weewx/examples \
+#      && find /home/weewx/weewx-venv -type d -name __pycache__ -exec rm -rf {} + 2>/dev/null || true \
+#      && find /home/weewx/weewx-venv -type f -name '*.pyc' -delete 2>/dev/null || true
 
   RUN . /home/weewx/weewx-venv/bin/activate \
       && python3 ~/weewx/src/weectl.py station create --no-prompt
