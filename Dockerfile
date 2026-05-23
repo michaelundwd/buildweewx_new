@@ -54,7 +54,10 @@ FROM python:trixie AS build-stage
           pyusb \
           requests
 
-  RUN git clone https://github.com/weewx/archive/refs/tags/$WEEWX_VERSION.tar.gz ~/weewx \
+#   https://github.com/weewx/weewx/archive/refs/tags/v5.3.1.tar.gz
+
+  RUN git clone https://github.com/weewx/weewx/archive/refs/tags/v5.3.1.tar.gz ~/weewx \
+#   RUN git clone https://github.com/weewx/archive/refs/tags/$WEEWX_VERSION.tar.gz ~/weewx \
       && cd ~/weewx \
       && git checkout $TAG \
       && rm -rf ~/weewx/.git \
