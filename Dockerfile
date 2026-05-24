@@ -73,7 +73,7 @@ FROM python:trixie AS build-stage
   
   # rename specific weewx file to generic weewx to ensure all subsequent code will work
   RUN . /home/weewx/weewx-venv/bin/activate \
-      && mv ~/weewx.* ~/weewx \
+      # && mv ~/weewx.* ~/weewx \
       && python3 ~/weewx/src/weectl.py station create --no-prompt
   
   COPY conf-fragments/*.conf /home/weewx/tmp/conf-fragments/
