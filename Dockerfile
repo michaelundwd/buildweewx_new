@@ -77,7 +77,8 @@ FROM python:trixie AS build-stage
         mv ~/weewx.* ~/weewx
       fi \
       && python3 ~/weewx/src/weectl.py station create --no-prompt
-
+  # changed to unix lf
+  
   COPY conf-fragments/*.conf /home/weewx/tmp/conf-fragments/
   
   RUN mkdir -p /home/weewx/tmp \
