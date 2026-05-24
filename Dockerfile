@@ -62,6 +62,7 @@ FROM python:trixie AS build-stage
 #   RUN wget -P ~/weewx https://github.com/weewx/weewx/archive/refs/tags/v5.3.1.tar.gz \
 #      && tar -xzf  ~/weewx/v5.3.1.tar.gz
 
+     && cd ~/weewx \
 
 
      && git checkout $TAG \
