@@ -54,23 +54,12 @@ FROM python:trixie AS build-stage
           pyusb \
           requests
 
-#   https://github.com/weewx/weewx/archive/refs/tags/v5.3.1.tar.gz
     WORKDIR /home/weewx
-
-
-#   RUN git clone https://github.com/weewx/weewx.git ~/weewx \
-#   RUN git download https://github.com/weewx/weewx.git ~/weewx \
-    RUN mkdir -p /home/weewx/weewx \
+    
+  RUN mkdir -p /home/weewx/weewx \
       && wget https://github.com/weewx/weewx/archive/refs/tags/$WEEWX_VERSION.tar.gz \
       && tar -xzf $WEEWX_VERSION.tar.gz --strip-components=1 -C /home/weewx/weewx \
       && rm -f $WEEWX_VERSION.tar.gz 
-      
-#     && git checkout $TAG \
-#     && rm -rf ~/weewx/.git \
-#     && rm -rf ~/weewx/docs ~/weewx/tests ~/weewx/.github ~/weewx/examples \
-#     && find /home/weewx/weewx-venv -type d -name __pycache__ -exec rm -rf {} + 2>/dev/null || true \
-#     && find /home/weewx/weewx-venv -type f -name '*.pyc' -delete 2>/dev/null || true
-
   
   RUN . /home/weewx/weewx-venv/bin/activate \
       && python3 ~/weewx/src/weectl.py station create --no-prompt
