@@ -59,8 +59,7 @@ FROM python:trixie AS build-stage
 
 #   RUN git clone https://github.com/weewx/weewx.git ~/weewx \
 #   RUN git download https://github.com/weewx/weewx.git ~/weewx \
-  RUN cd /var/tmp \
-      && mkdir ~/weewx \
+  RUN mkdir ~/weewx \
       && wget -O weewx_wget.tar.gz https://github.com/weewx/weewx/archive/refs/tags/v5.3.1.tar.gz \
       && tar -xzf weewx_wget.tar.gz -strip-components=1 -C ~/weewx \
       && rm -f weewx_wget.tar.gz \
