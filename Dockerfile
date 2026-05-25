@@ -57,19 +57,18 @@ FROM python:trixie AS build-stage
 #   https://github.com/weewx/weewx/archive/refs/tags/v5.3.1.tar.gz
 
 
-  RUN git clone https://github.com/weewx/weewx.git ~/weewx \
+#   RUN git clone https://github.com/weewx/weewx.git ~/weewx \
 #   RUN git download https://github.com/weewx/weewx.git ~/weewx \
-#   RUN wget -P ~/weewx https://github.com/weewx/weewx/archive/refs/tags/v5.3.1.tar.gz \
-#      && tar -xzf  ~/weewx/v5.3.1.tar.gz
-
-     && cd ~/weewx \
-
-
-     && git checkout $TAG \
-     && rm -rf ~/weewx/.git \
-     && rm -rf ~/weewx/docs ~/weewx/tests ~/weewx/.github ~/weewx/examples \
-     && find /home/weewx/weewx-venv -type d -name __pycache__ -exec rm -rf {} + 2>/dev/null || true \
-     && find /home/weewx/weewx-venv -type f -name '*.pyc' -delete 2>/dev/null || true
+  RUN wget https://github.com/weewx/weewx/archive/refs/tags/v5.3.1.tar.gz \
+      && tar -xzf v5.3.1.tar.gz -strip-components=1 -C ~/weewx \
+      && rm -f v5.3.1.tar.gz
+      && cd ~/weewx
+      
+#     && git checkout $TAG \
+#     && rm -rf ~/weewx/.git \
+#     && rm -rf ~/weewx/docs ~/weewx/tests ~/weewx/.github ~/weewx/examples \
+#     && find /home/weewx/weewx-venv -type d -name __pycache__ -exec rm -rf {} + 2>/dev/null || true \
+#     && find /home/weewx/weewx-venv -type f -name '*.pyc' -delete 2>/dev/null || true
 
   
   RUN . /home/weewx/weewx-venv/bin/activate \
