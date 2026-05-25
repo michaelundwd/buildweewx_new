@@ -62,7 +62,7 @@ FROM python:trixie AS build-stage
     RUN mkdir -p /home/weewx/weewx
       RUN chmod -R 777 /home/weewx/weewx
       WORKDIR /home/weewx/weewx
-      RUN wget https://github.com/weewx/weewx/archive/refs/tags/v5.3.1.tar.gz
+      RUN wget https://github.com/weewx/weewx/archive/refs/tags/$WEEWX_VERSION.tar.gz
       RUN tar -xzf v5.3.1.tar.gz --strip-components=1
       RUN rm -f weewx_wget.tar.gz 
       RUN cd ~/weewx 
