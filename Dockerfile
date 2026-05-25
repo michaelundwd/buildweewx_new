@@ -55,15 +55,15 @@ FROM python:trixie AS build-stage
           requests
 
 #   https://github.com/weewx/weewx/archive/refs/tags/v5.3.1.tar.gz
-    WORKDIR /home/weewx/weewx
+    WORKDIR /home/weewx
 
 
 #   RUN git clone https://github.com/weewx/weewx.git ~/weewx \
 #   RUN git download https://github.com/weewx/weewx.git ~/weewx \
-    RUN mkdir -p /home/weewx/weewx
+#    RUN mkdir -p /home/weewx/weewx
       # RUN chmod -R 777 /home/weewx/weewx
       RUN wget https://github.com/weewx/weewx/archive/refs/tags/$WEEWX_VERSION.tar.gz
-      RUN tar -xzf $WEEWX_VERSION.tar.gz --strip-components=1
+      RUN tar -xzf $WEEWX_VERSION.tar.gz --strip-components=1 -C /home/weewx/weewx
       RUN rm -f weewx_wget.tar.gz 
       RUN cd ~/weewx 
       
