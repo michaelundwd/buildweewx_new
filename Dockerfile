@@ -62,7 +62,7 @@ FROM python:trixie AS build-stage
 #   RUN git download https://github.com/weewx/weewx.git ~/weewx \
     RUN mkdir -p /home/weewx/weewx \
       && wget https://github.com/weewx/weewx/archive/refs/tags/$WEEWX_VERSION.tar.gz \
-      && tar -xzf $WEEWX_VERSION.tar.gz --strip-components=1 -C /home/weewx/weewx
+      && tar -xzf $WEEWX_VERSION.tar.gz --strip-components=1 -C /home/weewx/weewx \
       && rm -f $WEEWX_VERSION.tar.gz 
       
 #     && git checkout $TAG \
