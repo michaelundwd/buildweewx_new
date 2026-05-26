@@ -84,7 +84,7 @@ FROM python:trixie AS build-stage
     && find /home/weewx -type d -name __pycache__ -exec rm -rf {} + 2>/dev/null || true \
     && find /home/weewx -type f -name '*.pyc' -delete 2>/dev/null || true
 
-  # create run-stage with reduced size
+##  Create run-stage with reduced size
 
   FROM python:slim-trixie AS run-stage
 
@@ -96,6 +96,20 @@ FROM python:trixie AS build-stage
   ENV BELCHERTOWN_VERSION="v1.6"
   ENV TZ=Europe/London
   ENV LANG=en_GB.UTF-8
+
+  LABEL MAINTAINED_BY="Michael Underwood"
+  LABEL FORKED_FROM="https://github.com/mitct02/docker-weewx by Tom Mitchell <tom@tom.org>"
+  ENV VERSION=<tag>
+  ENV TAG=<tag>
+  ENV WEEWX_VERSION=<weewx_version>
+  ENV BELCHERTOWN_VERSION=<belchertown_version>
+  
+  ENV HOME=/home/weewx
+  ENV LANG=en_GB.UTF-8
+  ENV TZ=Europe/London
+  ENV WEEWX_ROOT=$HOME/weewx-data
+  
+
 
   RUN apt-get update \
       && apt-get install --no-install-recommends -y \
