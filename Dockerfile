@@ -115,13 +115,13 @@ FROM python:trixie AS build-stage
   
   USER weewx
 
-  # set up PATH for bin folder first
+  ## set up PATH for bin folder first
   ENV PATH="$HOME/weewx/bin:$PATH"
   
-  # modify .bashrc to include path to scripts and auto-activate weewx virtual environment on shell login
+  ## modify .bashrc to include path to scripts and auto-activate weewx virtual environment on shell login
   RUN echo "export PATH=$PATH:$WEEWX_ROOT/scripts" >> ~/.bashrc \
     && echo " . ~/weewx-venv/bin/activate" >> ~/.bashrc
     
-  #start container using entrypoint located in the host where it can be edited directly
+  ## start container using entrypoint located in the host where it can be edited directly
   ENTRYPOINT ["/home/weewx/weewx-data/scripts/entrypoint.sh"]
   WORKDIR $WEEWX_ROOT
