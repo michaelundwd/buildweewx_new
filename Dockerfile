@@ -14,10 +14,10 @@ FROM python:trixie AS build-stage
 
   LABEL MAINTAINED_BY="Michael Underwood"
   LABEL FORKED_FROM="https://github.com/mitct02/docker-weewx by Tom Mitchell <tom@tom.org>"
-  ENV TAG=<tag>
   ENV VERSION=<version>
   ENV WEEWX_VERSION=<weewx_version>
   ENV BELCHERTOWN_VERSION=<belchertown_version>
+  ENV TAG=<tag>
   
   ENV HOME=/home/weewx
   ENV LANG=en_GB.UTF-8
