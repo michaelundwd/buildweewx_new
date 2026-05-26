@@ -49,7 +49,7 @@ FROM python:trixie AS build-stage
           CT3 \
           db-sqlite3 \
           ephem \
-          numpy
+          numpy \
           paho-mqtt \
           pandas \
           Pillow \
