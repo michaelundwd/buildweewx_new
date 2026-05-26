@@ -38,6 +38,8 @@ FROM python:trixie AS build-stage
 
   USER weewx
 
+  WORKDIR /home/weewx
+    
   RUN python3 -m venv /home/weewx/weewx-venv \
       && chmod -R 755 /home/weewx
 
@@ -54,8 +56,6 @@ FROM python:trixie AS build-stage
           pyusb \
           requests
 
-    WORKDIR /home/weewx
-    
   RUN mkdir -p /home/weewx/weewx \
       && wget https://github.com/weewx/weewx/archive/refs/tags/$WEEWX_VERSION.tar.gz \
       && tar -xzf $WEEWX_VERSION.tar.gz --strip-components=1 -C /home/weewx/weewx \
@@ -73,21 +73,13 @@ FROM python:trixie AS build-stage
   ## Install extensions
   RUN cd /var/tmp \
     && . /home/weewx/weewx-venv/bin/activate \
-    ## Belchertown extension - fixed version number for now - use ENV version when debugged
-    ## Note that install can take place from .tar.gz and .zip files
-    # && wget -O belchertown-new.tar.gz https://github.com/uajqq/weewx-belchertown-new/archive/refs/tags/$BELCHERTOWN_VERSION-new-belchertown.tar.gz \
-    # && python3 ~/weewx/src/weectl.py extension install -y belchertown-new.tar.gz \
-    
     ## Belchertown-new extension
     && python3 ~/weewx/src/weectl.py extension install https://github.com/uajqq/weewx-belchertown-new/archive/refs/tags/$BELCHERTOWN_VERSION-new-belchertown.zip --yes \
-    
-    
     ## Interceptor Driver
-    && wget -O weewx-interceptor.zip https://github.com/matthewwall/weewx-interceptor/archive/master.zip \
-    && python3 ~/weewx/src/weectl.py extension install -y weewx-interceptor.zip \
+    && python3 ~/weewx/src/weectl.py extension install https://github.com/matthewwall/weewx-interceptor/archive/master.zip \
     ## MQTT extension
-    && wget -O weewx-mqtt.zip https://github.com/matthewwall/weewx-mqtt/archive/master.zip \
-    && python3 ~/weewx/src/weectl.py extension install -y weewx-mqtt.zip \
+    && python3 ~/weewx/src/weectl.py extension install https://github.com/matthewwall/weewx-mqtt/archive/master.zip --yes \
+    
     # Clean up Python bytecode from extensions
     && find /home/weewx -type d -name __pycache__ -exec rm -rf {} + 2>/dev/null || true \
     && find /home/weewx -type f -name '*.pyc' -delete 2>/dev/null || true
