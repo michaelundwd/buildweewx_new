@@ -76,7 +76,7 @@ FROM python:trixie AS build-stage
     ## Belchertown-new extension
     && python3 ~/weewx/src/weectl.py extension install https://github.com/uajqq/weewx-belchertown-new/archive/refs/tags/$BELCHERTOWN_VERSION-new-belchertown.zip --yes \
     ## Interceptor Driver
-    && python3 ~/weewx/src/weectl.py extension install https://github.com/matthewwall/weewx-interceptor/archive/master.zip \
+    && python3 ~/weewx/src/weectl.py extension install https://github.com/matthewwall/weewx-interceptor/archive/master.zip --yes\
     ## MQTT extension
     && python3 ~/weewx/src/weectl.py extension install https://github.com/matthewwall/weewx-mqtt/archive/master.zip --yes \
     
