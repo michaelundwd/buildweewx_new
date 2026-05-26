@@ -49,12 +49,15 @@ FROM python:trixie AS build-stage
           CT3 \
           db-sqlite3 \
           ephem \
+          numpy
           paho-mqtt \
+          pandas \
           Pillow \
           PyMySQL \
           pyserial \
           pyusb \
-          requests
+          requests \
+          skyfield
 
   RUN mkdir -p /home/weewx/weewx \
       && wget https://github.com/weewx/weewx/archive/refs/tags/$WEEWX_VERSION.tar.gz \
@@ -79,7 +82,8 @@ FROM python:trixie AS build-stage
     && python3 ~/weewx/src/weectl.py extension install https://github.com/matthewwall/weewx-interceptor/archive/master.zip --yes\
     ## MQTT extension
     && python3 ~/weewx/src/weectl.py extension install https://github.com/matthewwall/weewx-mqtt/archive/master.zip --yes \
-    
+    ## Skyfield extension
+    // python3 ~/weewx/src/weectl.py extension install https://github.com/roe-dl/weewx-skyfield-almanac/archive/master.zip --yes \
     # Clean up Python bytecode from extensions
     && find /home/weewx -type d -name __pycache__ -exec rm -rf {} + 2>/dev/null || true \
     && find /home/weewx -type f -name '*.pyc' -delete 2>/dev/null || true
