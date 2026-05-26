@@ -8,7 +8,7 @@
 #     WeeWX version  (from version.txt line 2)
 #     Belchertown  (from version.txt line 3)
 #     The OS is debian:trixie; 
-# This version last updated 22/05/2026
+# This version last updated 26/05/2026
 
 FROM python:trixie AS build-stage
 
@@ -84,18 +84,9 @@ FROM python:trixie AS build-stage
     && find /home/weewx -type d -name __pycache__ -exec rm -rf {} + 2>/dev/null || true \
     && find /home/weewx -type f -name '*.pyc' -delete 2>/dev/null || true
 
-##  Create run-stage with reduced size
+  ## Create run-stage with reduced size
 
   FROM python:slim-trixie AS run-stage
-
-  ENV VERSION=v2
-  ENV TAG=v5.2.0
-  ENV HOME=/home/weewx
-  ENV WEEWX_ROOT=$HOME/weewx-data
-  ENV WEEWX_VERSION=5.2.0
-  ENV BELCHERTOWN_VERSION="v1.6"
-  ENV TZ=Europe/London
-  ENV LANG=en_GB.UTF-8
 
   LABEL MAINTAINED_BY="Michael Underwood"
   LABEL FORKED_FROM="https://github.com/mitct02/docker-weewx by Tom Mitchell <tom@tom.org>"
@@ -108,8 +99,6 @@ FROM python:trixie AS build-stage
   ENV LANG=en_GB.UTF-8
   ENV TZ=Europe/London
   ENV WEEWX_ROOT=$HOME/weewx-data
-  
-
 
   RUN apt-get update \
       && apt-get install --no-install-recommends -y \
@@ -124,7 +113,7 @@ FROM python:trixie AS build-stage
       
   COPY --from=build-stage /home/weewx /home/weewx
   
-USER weewx
+  USER weewx
 
   # set up PATH for bin folder first
   ENV PATH="$HOME/weewx/bin:$PATH"
