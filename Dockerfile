@@ -8,7 +8,7 @@
 #     WeeWX version  (from version.txt line 2)
 #     Belchertown  (from version.txt line 3)
 #     The OS is debian:trixie; 
-# This version last updated 26/05/2026
+# This version last updated 31/05/2026
 
 FROM python:trixie AS build-stage
 
@@ -111,6 +111,8 @@ FROM python:trixie AS build-stage
       && chmod -R 755 /home/weewx   
       
   COPY --from=build-stage /home/weewx /home/weewx
+  
+  ##  These ENV variables are set near the end of Dockerfile, so that any changes minimises no of layers to be recreated in the image
   
   ENV WEEWX_VERSION=<w_version>
   ENV BELCHERTOWN_VERSION=<b_version>
