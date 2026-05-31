@@ -14,8 +14,6 @@ FROM python:trixie AS build-stage
 
   LABEL MAINTAINED_BY="Michael Underwood"
   LABEL FORKED_FROM="https://github.com/mitct02/docker-weewx by Tom Mitchell <tom@tom.org>"
-  ENV TAG=<t_version>
-  ENV VERSION=<v_version>
   ENV WEEWX_VERSION=<w_version>
   ENV BELCHERTOWN_VERSION=<b_version>
   
@@ -60,7 +58,7 @@ FROM python:trixie AS build-stage
           skyfield
 
   RUN mkdir -p /home/weewx/weewx \
-      && wget https://github.com/weewx/weewx/archive/refs/tags/$WEEWX_VERSION.tar.gz \
+      && wget https://github.com/weewx/weewx/archive/refs/tags/$.tar.gz \
       && tar -xzf $WEEWX_VERSION.tar.gz --strip-components=1 -C /home/weewx/weewx \
       && rm -f $WEEWX_VERSION.tar.gz 
   
@@ -94,8 +92,8 @@ FROM python:trixie AS build-stage
 
 #  LABEL MAINTAINED_BY="Michael Underwood"
 #  LABEL FORKED_FROM="https://github.com/mitct02/docker-weewx by Tom Mitchell <tom@tom.org>"
-  ENV TAG=<t_version>
-  ENV VERSION=<v_version>
+#  ENV TAG=<t_version>
+#  ENV VERSION=<v_version>
   ENV WEEWX_VERSION=<w_version>
   ENV BELCHERTOWN_VERSION=<b_version>
     
@@ -116,6 +114,9 @@ FROM python:trixie AS build-stage
       && chmod -R 755 /home/weewx   
       
   COPY --from=build-stage /home/weewx /home/weewx
+  
+  ENV TAG=<t_version>
+  ENV VERSION=<v_version>
   
   USER weewx
 
