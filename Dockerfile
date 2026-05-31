@@ -14,6 +14,7 @@ FROM python:trixie AS build-stage
 
   LABEL MAINTAINED_BY="Michael Underwood"
   LABEL FORKED_FROM="https://github.com/mitct02/docker-weewx by Tom Mitchell <tom@tom.org>"
+  
   ENV WEEWX_VERSION=<w_version>
   ENV BELCHERTOWN_VERSION=<b_version>
   
@@ -90,13 +91,9 @@ FROM python:trixie AS build-stage
 
   FROM python:slim-trixie AS run-stage
 
-#  LABEL MAINTAINED_BY="Michael Underwood"
-#  LABEL FORKED_FROM="https://github.com/mitct02/docker-weewx by Tom Mitchell <tom@tom.org>"
-#  ENV TAG=<t_version>
-#  ENV VERSION=<v_version>
-  ENV WEEWX_VERSION=<w_version>
-  ENV BELCHERTOWN_VERSION=<b_version>
-    
+  LABEL MAINTAINED_BY="Michael Underwood"
+  LABEL FORKED_FROM="https://github.com/mitct02/docker-weewx by Tom Mitchell <tom@tom.org>"
+  
   ENV HOME=/home/weewx
   ENV LANG=en_GB.UTF-8
   ENV TZ=Europe/London
@@ -115,6 +112,8 @@ FROM python:trixie AS build-stage
       
   COPY --from=build-stage /home/weewx /home/weewx
   
+  ENV WEEWX_VERSION=<w_version>
+  ENV BELCHERTOWN_VERSION=<b_version>
   ENV TAG=<t_version>
   ENV VERSION=<v_version>
   
