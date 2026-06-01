@@ -20,8 +20,8 @@ FROM python:trixie AS build-stage
   
 #  ENV WEEWX_VERSION=<w_version>
 #  ENV BELCHERTOWN_VERSION=<b_version>
-  ENV WEEWX_VERSION=$w_val
-  ENV BELCHERTOWN_VERSION=$v_val
+  ENV WEEWX_VERSION=${w_val}
+  ENV BELCHERTOWN_VERSION=${v_val}
   
   ENV HOME=/home/weewx
   ENV LANG=en_GB.UTF-8
