@@ -119,10 +119,15 @@ FROM python:trixie AS build-stage
   
   ##  These ENV variables are set near the end of Dockerfile, so that any changes minimises no of layers to be recreated in the image
   
-  ENV WEEWX_VERSION=<w_version>
-  ENV BELCHERTOWN_VERSION=<b_version>
-  ENV TAG=<t_version>
-  ENV VERSION=<v_version>
+  ARG b_val b_val
+  ARG t_val t_val
+  ARG v_val v_val
+  ARG w_val w_val
+  
+  ENV VERSION=${v_val}
+  ENV TAG=${t_val}
+  ENV WEEWX_VERSION=${w_val}
+  ENV BELCHERTOWN_VERSION=${b_val}
   
   USER weewx
 
