@@ -8,20 +8,12 @@
 #     WeeWX version  (from version.txt line 2)
 #     Belchertown  (from version.txt line 3)
 #     The OS is debian:trixie; 
-# This version last updated 01/06/2026 to use --build-arg
+# This version last updated 03/06/2026 to use --build-arg
 
 FROM python:trixie AS build-stage
 
   LABEL MAINTAINED_BY="Michael Underwood"
   LABEL FORKED_FROM="https://github.com/mitct02/docker-weewx by Tom Mitchell <tom@tom.org>"
-  
-  ARG w_val w_val
-  ARG b_val v_val
-  
-#  ENV WEEWX_VERSION=<w_version>
-#  ENV BELCHERTOWN_VERSION=<b_version>
-  ENV WEEWX_VERSION=${w_val}
-  ENV BELCHERTOWN_VERSION=${v_val}
   
   ENV HOME=/home/weewx
   ENV LANG=en_GB.UTF-8
@@ -63,6 +55,11 @@ FROM python:trixie AS build-stage
           requests \
           skyfield
 
+  ARG w_val w_val
+  ARG b_val v_val
+  ENV WEEWX_VERSION=${w_val}
+  ENV BELCHERTOWN_VERSION=${v_val}
+  
   RUN mkdir -p /home/weewx/weewx \
       && wget https://github.com/weewx/weewx/archive/refs/tags/$WEEWX_VERSION.tar.gz \
       && tar -xzf $WEEWX_VERSION.tar.gz --strip-components=1 -C /home/weewx/weewx \
