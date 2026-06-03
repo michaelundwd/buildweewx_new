@@ -117,11 +117,6 @@ FROM python:trixie AS build-stage
       
   COPY --from=build-stage /home/weewx /home/weewx
   
-  ##  copy weewx-data to a folder that can be accessed from within container when running
-  
-  RUN   RUN mkdir -p /home/weewx/weewx-build
-  
-  COPY /home/weewx/weewx-data /home/weewx/weewx-build
   
   ##  These ENV variables are set near the end of Dockerfile, so that any changes minimises no of layers to be recreated in the image
   
@@ -137,6 +132,12 @@ FROM python:trixie AS build-stage
   
   USER weewx
 
+  ##  copy weewx-data to a folder that can be accessed from within container when running
+  
+  RUN  mkdir -p /home/weewx/weewx-build
+  
+  COPY /home/weewx/weewx-data /home/weewx/weewx-build
+  
   ## set up PATH for bin folder first
   ENV PATH="$HOME/weewx/bin:$PATH"
   
