@@ -8,7 +8,7 @@
 #     WeeWX version  (from version.txt line 2)
 #     Belchertown  (from version.txt line 3)
 #     The OS is debian:trixie; 
-# This version last updated 03/06/2026 to use --build-arg
+# This version last updated 04/06/2026 to use --build-arg
 
 FROM python:trixie AS build-stage
 
@@ -105,6 +105,7 @@ FROM python:trixie AS build-stage
       && apt-get install --no-install-recommends -y \
           locales \
           tzdata \
+          wget \
       && echo "en_GB.UTF-8 UTF-8" >> /etc/locale.gen \
       && locale-gen \
       && addgroup weewx \
