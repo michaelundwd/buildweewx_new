@@ -47,13 +47,13 @@ FROM python:trixie AS build-stage
           ephem \
           numpy \
           paho-mqtt \
-          pandas \
+  #        pandas \
           Pillow \
           PyMySQL \
           pyserial \
           pyusb \
-          requests \
-          skyfield
+          requests 
+  #        skyfield
 
   ARG w_val w_val
   ARG b_val v_val
@@ -84,7 +84,7 @@ FROM python:trixie AS build-stage
     ## MQTT extension
     && python3 ~/weewx/src/weectl.py extension install https://github.com/matthewwall/weewx-mqtt/archive/master.zip --yes \
     ## Skyfield extension
-    && python3 ~/weewx/src/weectl.py extension install https://github.com/roe-dl/weewx-skyfield-almanac/archive/master.zip --yes \
+    ##  && python3 ~/weewx/src/weectl.py extension install https://github.com/roe-dl/weewx-skyfield-almanac/archive/master.zip --yes \
     # Clean up Python bytecode from extensions
     && find /home/weewx -type d -name __pycache__ -exec rm -rf {} + 2>/dev/null || true \
     && find /home/weewx -type f -name '*.pyc' -delete 2>/dev/null || true
