@@ -110,10 +110,10 @@ FROM python:trixie AS build-stage
   ARG v_val
   ARG w_val
   
-  #ENV VERSION=${v_val}
-  #ENV TAG=${t_val}
-  #ENV WEEWX_VERSION=${w_val}
-  #ENV BELCHERTOWN_VERSION=${b_val}
+  ENV VERSION=""
+  ENV TAG=""
+  ENV WEEWX_VERSION=""
+  ENV BELCHERTOWN_VERSION=""
   
   ENV HOME=/home/weewx
   ENV LANG=en_GB.UTF-8
