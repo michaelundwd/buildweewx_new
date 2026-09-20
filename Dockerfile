@@ -20,12 +20,6 @@ FROM python:trixie AS build-stage
   LABEL MAINTAINED_BY="Michael Underwood"
   LABEL FORKED_FROM="https://github.com/mitct02/docker-weewx by Tom Mitchell <tom@tom.org>"
   
-  ENV VERSION=${v_val}
-  ENV TAG=${t_val}
-  ENV WEEWX_VERSION=${w_val}
-  ENV BELCHERTOWN_VERSION=${b_val}
-  
-  ENV HOME=/home/weewx
   ENV LANG=en_GB.UTF-8
   ENV TZ=Europe/London
   ENV WEEWX_ROOT=$HOME/weewx-data
@@ -65,10 +59,10 @@ FROM python:trixie AS build-stage
           requests \
           skyfield
 
-  ARG w_val w_val
-  ARG b_val v_val
-  ENV WEEWX_VERSION=${w_val}
-  ENV BELCHERTOWN_VERSION=${v_val}
+  # ARG w_val
+  # ARG b_val
+  # ENV WEEWX_VERSION=${w_val}
+  # ENV BELCHERTOWN_VERSION=${v_val}
   
   RUN mkdir -p /home/weewx/weewx \
       && wget https://github.com/weewx/weewx/archive/refs/tags/$WEEWX_VERSION.tar.gz \
@@ -106,19 +100,19 @@ FROM python:trixie AS build-stage
   LABEL MAINTAINED_BY="Michael Underwood"
   LABEL FORKED_FROM="https://github.com/mitct02/docker-weewx by Tom Mitchell <tom@tom.org>"
   
-  ##  These ENV variables moved to beginning 
+  ##  inherit global ARGS and set ENVs
   
-  ARG b_val b_val
-  ARG t_val t_val
-  ARG v_val v_val
-  ARG w_val w_val
+  ARG b_val
+  ARG t_val
+  ARG v_val
+  ARG w_val
   
   ENV VERSION=${v_val}
   ENV TAG=${t_val}
   ENV WEEWX_VERSION=${w_val}
   ENV BELCHERTOWN_VERSION=${b_val}
-  ENV HOME=/home/weewx
   
+  ENV HOME=/home/weewx
   ENV LANG=en_GB.UTF-8
   ENV TZ=Europe/London
   ENV WEEWX_ROOT=$HOME/weewx-data
