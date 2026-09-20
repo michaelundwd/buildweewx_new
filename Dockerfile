@@ -60,10 +60,10 @@ FROM python:trixie AS build-stage
           requests \
           skyfield
 
-  # ARG w_val
-  # ARG b_val
-  # ENV WEEWX_VERSION=${w_val}
-  # ENV BELCHERTOWN_VERSION=${v_val}
+  ARG w_val
+  ARG b_val
+  ENV WEEWX_VERSION=${w_val}
+  ENV BELCHERTOWN_VERSION=${v_val}
   
   RUN mkdir -p /home/weewx/weewx \
       && wget https://github.com/weewx/weewx/archive/refs/tags/$WEEWX_VERSION.tar.gz \
