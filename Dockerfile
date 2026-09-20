@@ -8,7 +8,18 @@
 #     WeeWX version  (from version.txt line 2)
 #     Belchertown  (from version.txt line 3)
 #     The OS is debian:trixie; 
-# This version last updated 04/06/2026 to use --build-arg
+# This version last updated 20/09/2026 to ensure --build-arg values are available in runtime
+
+  ARG b_val b_val
+  ARG t_val t_val
+  ARG v_val v_val
+  ARG w_val w_val
+  
+  ENV VERSION=${v_val}
+  ENV TAG=${t_val}
+  ENV WEEWX_VERSION=${w_val}
+  ENV BELCHERTOWN_VERSION=${b_val}
+  
 
 FROM python:trixie AS build-stage
 
@@ -96,7 +107,19 @@ FROM python:trixie AS build-stage
   LABEL MAINTAINED_BY="Michael Underwood"
   LABEL FORKED_FROM="https://github.com/mitct02/docker-weewx by Tom Mitchell <tom@tom.org>"
   
+  ##  These ENV variables are set near the end of Dockerfile, so that any changes minimises no of layers to be recreated in the image
+  
+  ARG b_val b_val
+  ARG t_val t_val
+  ARG v_val v_val
+  ARG w_val w_val
+  
+  ENV VERSION=${v_val}
+  ENV TAG=${t_val}
+  ENV WEEWX_VERSION=${w_val}
+  ENV BELCHERTOWN_VERSION=${b_val}
   ENV HOME=/home/weewx
+  
   ENV LANG=en_GB.UTF-8
   ENV TZ=Europe/London
   ENV WEEWX_ROOT=$HOME/weewx-data
@@ -119,18 +142,7 @@ FROM python:trixie AS build-stage
   
   COPY --from=build-stage /home/weewx/weewx-data /home/weewx/weewx-build
   
-  ##  These ENV variables are set near the end of Dockerfile, so that any changes minimises no of layers to be recreated in the image
-  
-  ARG b_val b_val
-  ARG t_val t_val
-  ARG v_val v_val
-  ARG w_val w_val
-  
-  ENV VERSION=${v_val}
-  ENV TAG=${t_val}
-  ENV WEEWX_VERSION=${w_val}
-  ENV BELCHERTOWN_VERSION=${b_val}
-  
+ 
   USER weewx
 
   ## set up PATH for bin folder first
