@@ -15,16 +15,15 @@
   ARG v_val v_val
   ARG w_val w_val
   
-  ENV VERSION=${v_val}
-  ENV TAG=${t_val}
-  ENV WEEWX_VERSION=${w_val}
-  ENV BELCHERTOWN_VERSION=${b_val}
-  
-
 FROM python:trixie AS build-stage
 
   LABEL MAINTAINED_BY="Michael Underwood"
   LABEL FORKED_FROM="https://github.com/mitct02/docker-weewx by Tom Mitchell <tom@tom.org>"
+  
+  ENV VERSION=${v_val}
+  ENV TAG=${t_val}
+  ENV WEEWX_VERSION=${w_val}
+  ENV BELCHERTOWN_VERSION=${b_val}
   
   ENV HOME=/home/weewx
   ENV LANG=en_GB.UTF-8
@@ -107,7 +106,7 @@ FROM python:trixie AS build-stage
   LABEL MAINTAINED_BY="Michael Underwood"
   LABEL FORKED_FROM="https://github.com/mitct02/docker-weewx by Tom Mitchell <tom@tom.org>"
   
-  ##  These ENV variables are set near the end of Dockerfile, so that any changes minimises no of layers to be recreated in the image
+  ##  These ENV variables moved to beginning 
   
   ARG b_val b_val
   ARG t_val t_val
