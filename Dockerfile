@@ -12,10 +12,10 @@
 
 # set global arguments
 
-  ARG arg_b_val b_val
-  ARG arg_t_val t_val
-  ARG arg_v_val v_val
-  ARG arg_w_val w_val
+  ARG b_val
+  ARG t_val
+  ARG v_val
+  ARG w_val
   
 FROM python:trixie AS build-stage
 
@@ -62,8 +62,8 @@ FROM python:trixie AS build-stage
           requests \
           skyfield
 
-  ARG arg_w_val
-  ARG arg_b_val
+  ARG w_val
+  ARG b_val
   ENV WEEWX_VERSION=${w_val}
   ENV BELCHERTOWN_VERSION=${b_val}
   
@@ -105,15 +105,15 @@ FROM python:trixie AS build-stage
   
   ##  inherit global ARGS and set ENVs
   
-  ARG arg_b_val
-  ARG arg_t_val
-  ARG arg_v_val
-  ARG arg_w_val
+  ARG b_val
+  ARG t_val
+  ARG v_val
+  ARG w_val
   
-  ENV VERSION=${arg_v_val}
-  ENV TAG=${arg_t_val}
-  ENV WEEWX_VERSION=${arg_w_val}
-  ENV BELCHERTOWN_VERSION=${arg_b_val}
+  ENV VERSION=${v_val}
+  ENV TAG=${t_val}
+  ENV WEEWX_VERSION=${w_val}
+  ENV BELCHERTOWN_VERSION=${b_val}
   
   ENV HOME=/home/weewx
   ENV LANG=en_GB.UTF-8
