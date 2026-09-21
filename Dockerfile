@@ -136,8 +136,7 @@ FROM python:trixie AS build-stage
   
   ##  copy weewx-data to a folder that can be accessed from within container when running
   
-  COPY --from=build-stage /home/weewx/weewx-data /home/weewx/weewx-build
-  
+  COPY --from=build-stage /home/weewx/weewx-data /home/weewx/weewx-data/weewx-build
  
   USER weewx
 
