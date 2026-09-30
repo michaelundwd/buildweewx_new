@@ -87,7 +87,7 @@ FROM python:trixie AS build-stage
     
     && install_ext() { \
         echo "==> Installing extension: $1"; \
-        out=$(weectl extension install "$1" --yes 2>&1) || { echo "$out"; echo "ERROR: weectl failed for $1" >&2; exit 1; }; \
+        out=$(python3 ~/weewx/src/weectl.py extension install "$1" --yes 2>&1) || { echo "$out"; echo "ERROR: weectl failed for $1" >&2; exit 1; }; \
         echo "$out"; \
         echo "$out" | grep -q "Finished installing extension" || { echo "ERROR: extension install did not complete: $1" >&2; exit 1; }; \
     } \
@@ -102,7 +102,7 @@ FROM python:trixie AS build-stage
     && install_ext https://github.com/roe-dl/weewx-skyfield-almanac/archive/master.zip --yes \
     # Clean up Python bytecode from extensions
     && find /home/weewx -type d -name __pycache__ -exec rm -rf {} + 2>/dev/null || true \
-    && find /home/weewx -type f -name '*.pyc' -delete 2>/dev/null || true
+    && find /home/weewx -type f -name '*.pyc' -delete 2>/dev/null || true;
 
   ## Create run-stage with reduced size
 
