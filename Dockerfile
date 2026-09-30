@@ -84,14 +84,12 @@ FROM python:trixie AS build-stage
   ## Install extensions
   RUN cd /var/tmp \
     && . /home/weewx/weewx-venv/bin/activate \
-    
     && install_ext() { \
         echo "==> Installing extension: $1"; \
         out=$(python3 ~/weewx/src/weectl.py extension install "$1" --yes 2>&1) || { echo "$out"; echo "ERROR: weectl failed for $1" >&2; exit 1; }; \
         echo "$out"; \
         echo "$out" | grep -q "Finished installing extension" || { echo "ERROR: extension install did not complete: $1" >&2; exit 1; }; \
     } \
-    
     ## Belchertown-new extension
     && install_ext https://github.com/uajqq/weewx-belchertown-new/archive/refs/tags/$BELCHERTOWN_VERSION-new-belchertown.zip --yes \
     ## Interceptor Driver
