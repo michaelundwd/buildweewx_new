@@ -84,20 +84,14 @@ FROM python:trixie AS build-stage
   ## Install extensions
   RUN cd /var/tmp \
     && . /home/weewx/weewx-venv/bin/activate \
-    && install_ext() { \
-        echo "==> Installing extension: $1"; \
-        out=$(python3 ~/weewx/src/weectl.py extension install "$1" --yes 2>&1) || { echo "$out"; echo "ERROR: weectl failed for $1" >&2; exit 1; }; \
-        echo "$out"; \
-        echo "$out" | grep -q "Finished installing extension" || { echo "ERROR: extension install did not complete: $1" >&2; exit 1; }; \
-    } \
     ## Belchertown-new extension
-    && install_ext https://github.com/uajqq/weewx-belchertown-new/archive/refs/tags/$BELCHERTOWN_VERSION.zip --yes \
+    && python3 ~/weewx/src/weectl.py extension install https://github.com/uajqq/weewx-belchertown-new/archive/refs/tags/$BELCHERTOWN_VERSION-new-belchertown.zip --yes \
     ## Interceptor Driver
-    && install_ext https://github.com/matthewwall/weewx-interceptor/archive/master.zip --yes\
+    && python3 ~/weewx/src/weectl.py extension install https://github.com/matthewwall/weewx-interceptor/archive/master.zip --yes\
     ## MQTT extension
-    && install_ext https://github.com/matthewwall/weewx-mqtt/archive/master.zip --yes \
+    && python3 ~/weewx/src/weectl.py extension install https://github.com/matthewwall/weewx-mqtt/archive/master.zip --yes \
     ## Skyfield extension
-    && install_ext https://github.com/roe-dl/weewx-skyfield-almanac/archive/master.zip --yes \
+    && python3 ~/weewx/src/weectl.py extension install https://github.com/roe-dl/weewx-skyfield-almanac/archive/master.zip --yes \
     # Clean up Python bytecode from extensions
     && find /home/weewx -type d -name __pycache__ -exec rm -rf {} + 2>/dev/null || true \
     && find /home/weewx -type f -name '*.pyc' -delete 2>/dev/null || true
