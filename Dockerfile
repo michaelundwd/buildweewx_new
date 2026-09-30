@@ -91,7 +91,7 @@ FROM python:trixie AS build-stage
         echo "$out" | grep -q "Finished installing extension" || { echo "ERROR: extension install did not complete: $1" >&2; exit 1; }; \
     } \
     ## Belchertown-new extension
-    && install_ext https://github.com/uajqq/weewx-belchertown-new/archive/refs/tags/$BELCHERTOWN_VERSION-new-belchertown.zip --yes \
+    && install_ext https://github.com/uajqq/weewx-belchertown-new/archive/refs/tags/$BELCHERTOWN_VERSION.zip --yes \
     ## Interceptor Driver
     && install_ext https://github.com/matthewwall/weewx-interceptor/archive/master.zip --yes\
     ## MQTT extension
