@@ -85,7 +85,7 @@ FROM python:trixie AS build-stage
   RUN cd /var/tmp \
     && . /home/weewx/weewx-venv/bin/activate \
     ## Belchertown-new extension
-    && python3 ~/weewx/src/weectl.py extension install https://github.com/uajqq/weewx-belchertown-new/archive/refs/tags/$BELCHERTOWN_VERSION-new-belchertown.zip --yes \
+    && python3 ~/weewx/src/weectl.py extension install https://github.com/uajqq/weewx-belchertown-new/archive/refs/tags/$BELCHERTOWN_VERSION.zip --yes \
     ## Interceptor Driver
     && python3 ~/weewx/src/weectl.py extension install https://github.com/matthewwall/weewx-interceptor/archive/master.zip --yes\
     ## MQTT extension
