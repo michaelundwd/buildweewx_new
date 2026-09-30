@@ -85,13 +85,13 @@ FROM python:trixie AS build-stage
   RUN cd /var/tmp \
     && . /home/weewx/weewx-venv/bin/activate \
     ## Belchertown-new extension
-    && python3 ~/weewx/src/weectl.py extension install https://github.com/uajqq/weewx-belchertown-new/archive/refs/tags/$BELCHERTOWN_VERSION-new-belchertown.zip --yes \
+    && weectl extension install https://github.com/uajqq/weewx-belchertown-new/archive/refs/tags/$BELCHERTOWN_VERSION-new-belchertown.zip --yes \
     ## Interceptor Driver
-    && python3 ~/weewx/src/weectl.py extension install https://github.com/matthewwall/weewx-interceptor/archive/master.zip --yes\
+    && weectl extension install https://github.com/matthewwall/weewx-interceptor/archive/master.zip --yes\
     ## MQTT extension
-    && python3 ~/weewx/src/weectl.py extension install https://github.com/matthewwall/weewx-mqtt/archive/master.zip --yes \
+    && weectl extension install https://github.com/matthewwall/weewx-mqtt/archive/master.zip --yes \
     ## Skyfield extension
-    && python3 ~/weewx/src/weectl.py extension install https://github.com/roe-dl/weewx-skyfield-almanac/archive/master.zip --yes \
+    && weectl extension install https://github.com/roe-dl/weewx-skyfield-almanac/archive/master.zip --yes \
     # Clean up Python bytecode from extensions
     && find /home/weewx -type d -name __pycache__ -exec rm -rf {} + 2>/dev/null || true \
     && find /home/weewx -type f -name '*.pyc' -delete 2>/dev/null || true
