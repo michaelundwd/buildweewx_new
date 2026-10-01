@@ -90,6 +90,8 @@ FROM python:trixie AS build-stage
         echo "$out"; \
         echo "$out" | grep -q "Finished installing extension" || { echo "ERROR: extension install did not complete: $1" >&2; exit 1; }; \
     } \
+    ## Belchertown-old extension - v1.8 always installed as a basis for mju "old-belchertown"
+    && install_ext https://github.com/uajqq/weewx-belchertown-new/archive/refs/tags/v1.8-new-belchertown.tar.gz --yes \
     ## Belchertown-new extension
     && install_ext https://github.com/uajqq/weewx-belchertown-new/archive/refs/tags/$BELCHERTOWN_VERSION.zip --yes \
     ## Interceptor Driver
