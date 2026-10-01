@@ -1,14 +1,18 @@
 # LORDSHIPWEATHER.UK docker image (weewx)
 # Forked from https://github.com/tomdotorg/docker-weewx
-# Two-stage dockerfile created for use by buildweex script
-#     buildweewx stores user-defined ENV variables in version.txt
-#     The build uses a local version of the github files
-#     so that the ENV parameters can be edited into the local Dockerfile
-#     Version (from version.txt line 1)
-#     WeeWX version  (from version.txt line 2)
-#     Belchertown  (from version.txt line 3)
-#     The OS is debian:trixie; 
-# This version last updated 20/09/2026 to ensure --build-arg values are available in runtime
+# Two-stage dockerfile created for use by mju's buildweex script
+#   buildweewx stores user-defined ENV variables in version.txt
+#   that are transferred to  the image by means of ARG statements
+#     ARG b_val new-belchertown skin version
+#     ARG t_val tag eg weewx_522_b211
+#     ARG v_val build version
+#     ARG w_val weewx version
+#     The OS is debian:trixie
+#   IMPORTANT NOTE: this is a common build for both old and new belchertown versions
+#   The build always includes v1.8 as that is the basis for live operation on zeropi
+
+# Updated 20/09/2026 to ensure --build-arg values are available in runtime
+# Updated 01/10/2026 as a common basis for old and new belchertown skins
 
 # set global arguments
 
