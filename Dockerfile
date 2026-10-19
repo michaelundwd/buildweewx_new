@@ -3,34 +3,38 @@
 # Two-stage dockerfile created for use by mju's buildweex script
 #   buildweewx stores user-defined ENV variables in version.txt
 #   that are transferred to  the image by means of ARG statements
-#     ARG b_val new-belchertown skin version
-#     ARG t_val tag eg weewx_522_b211
+#     ARG b_val old-belchertown skin version
+#     ARG n_val new-belchertown skin version
+#     ARG t_val tag eg weewx_522_b30_n211
 #     ARG v_val build version
 #     ARG w_val weewx version
 #     The OS is debian:trixie
 #   IMPORTANT NOTE: this is a common build for both old and new belchertown versions
 #   The build always includes v1.8 as that is the basis for live operation on zeropi
+#   Subsequently modified to include v3.0; updated version of the original skin by pob
 
 # Updated 20/09/2026 to ensure --build-arg values are available in runtime
 # Updated 01/10/2026 as a common basis for old and new belchertown skins
+# Updated 19/10/2026 to accommodate belchertown 3.0, the original belchertown brought uptodate, but not initialy to prove buildweewx still works
 
 # set global arguments
 
   ARG b_val
+  ARG n_val
   ARG t_val
   ARG v_val
   ARG w_val
-  
+
 FROM python:trixie AS build-stage
 
   LABEL MAINTAINED_BY="Michael Underwood"
   LABEL FORKED_FROM="https://github.com/mitct02/docker-weewx by Tom Mitchell <tom@tom.org>"
-  
+
   ENV HOME=/home/weewx
   ENV LANG=en_GB.UTF-8
   ENV TZ=Europe/London
   ENV WEEWX_ROOT=$HOME/weewx-data
-  
+
   RUN apt-get update \
       && apt-get install --no-install-recommends -y \
           locales \
@@ -46,7 +50,7 @@ FROM python:trixie AS build-stage
   USER weewx
 
   WORKDIR /home/weewx
-    
+
   RUN python3 -m venv /home/weewx/weewx-venv \
       && chmod -R 755 /home/weewx
 
@@ -66,21 +70,23 @@ FROM python:trixie AS build-stage
           requests \
           skyfield
 
-  ARG w_val
   ARG b_val
-  ENV WEEWX_VERSION=${w_val}
+  ARG n_val
+  ARG w_val
   ENV BELCHERTOWN_VERSION=${b_val}
-  
+  ENV NEW_BELCHERTOWN_VERSION=${n_val}
+  ENV WEEWX_VERSION=${w_val}
+
   RUN mkdir -p /home/weewx/weewx \
       && wget https://github.com/weewx/weewx/archive/refs/tags/$WEEWX_VERSION.tar.gz \
       && tar -xzf $WEEWX_VERSION.tar.gz --strip-components=1 -C /home/weewx/weewx \
       && rm -f $WEEWX_VERSION.tar.gz 
-  
+
   RUN . /home/weewx/weewx-venv/bin/activate \
       && python3 ~/weewx/src/weectl.py station create --no-prompt
-  
+
   COPY conf-fragments/*.conf /home/weewx/tmp/conf-fragments/
-  
+
   RUN mkdir -p /home/weewx/tmp \
       && mkdir -p /home/weewx/weewx-data \
       && cat /home/weewx/tmp/conf-fragments/* >> /home/weewx/weewx-data/weewx.conf
@@ -97,7 +103,7 @@ FROM python:trixie AS build-stage
     ## Belchertown-old extension - v1.8 always installed as a basis for mju "old-belchertown"
     && install_ext https://github.com/uajqq/weewx-belchertown-new/archive/refs/tags/v1.8-new-belchertown.tar.gz --yes \
     ## Belchertown-new extension
-    && install_ext https://github.com/uajqq/weewx-belchertown-new/archive/refs/tags/$BELCHERTOWN_VERSION.zip --yes \
+    && install_ext https://github.com/uajqq/weewx-belchertown-new/archive/refs/tags/$NEW_BELCHERTOWN_VERSION.zip --yes \
     ## Interceptor Driver
     && install_ext https://github.com/matthewwall/weewx-interceptor/archive/master.zip --yes\
     ## MQTT extension
@@ -114,19 +120,21 @@ FROM python:trixie AS build-stage
 
   LABEL MAINTAINED_BY="Michael Underwood"
   LABEL FORKED_FROM="https://github.com/mitct02/docker-weewx by Tom Mitchell <tom@tom.org>"
-  
+
   ##  inherit global ARGS and set ENVs
-  
+
   ARG b_val
+  ARG n_val
   ARG t_val
   ARG v_val
   ARG w_val
-  
-  ENV VERSION=${v_val}
-  ENV TAG=${t_val}
-  ENV WEEWX_VERSION=${w_val}
+
   ENV BELCHERTOWN_VERSION=${b_val}
-  
+  ENV NEW_BELCHERTOWN_VERSION=${n_val}
+  ENV TAG=${t_val}
+  ENV VERSION=${v_val}
+  ENV WEEWX_VERSION=${w_val}
+
   ENV HOME=/home/weewx
   ENV LANG=en_GB.UTF-8
   ENV TZ=Europe/London
@@ -143,22 +151,22 @@ FROM python:trixie AS build-stage
       && useradd -m -g weewx weewx \
       && chown -R weewx:weewx /home/weewx \
       && chmod -R 755 /home/weewx   
-      
+
   COPY --from=build-stage /home/weewx /home/weewx
-  
+
   ##  copy weewx-data to a folder that can be accessed from within container when running
-  
+
   COPY --from=build-stage /home/weewx/weewx-data /home/weewx/weewx-build
-  
-   USER weewx
+
+  USER weewx
 
   ## set up PATH for bin folder first
   ENV PATH="$HOME/weewx/bin:$PATH"
-  
+
   ## modify .bashrc to include path to scripts and auto-activate weewx virtual environment on shell login
   RUN echo "export PATH=$PATH:$WEEWX_ROOT/scripts" >> ~/.bashrc \
     && echo " . ~/weewx-venv/bin/activate" >> ~/.bashrc
-    
+
   ## start container using entrypoint located in the host where it can be edited directly
   ENTRYPOINT ["/home/weewx/weewx-data/scripts/entrypoint.sh"]
   WORKDIR $WEEWX_ROOT
