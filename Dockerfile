@@ -13,7 +13,6 @@
 
 # Updated 20/09/2026 to ensure --build-arg values are available in runtime
 # Updated 01/10/2026 as a common basis for old and new belchertown skins
-# Updated 22/10/2026 to copy weewx-build into weewx-data for access from host
 
 # set global arguments
 
@@ -147,9 +146,9 @@ FROM python:trixie AS build-stage
       
   COPY --from=build-stage /home/weewx /home/weewx
   
-  ##  copy weewx-data to a folder that can be accessed from host when running
+  ##  copy weewx-data to a folder that can be accessed from host when running after copying from container
   
-  COPY --from=build-stage /home/weewx/weewx-data /home/weewx/weewx-data/weewx-build
+  COPY --from=build-stage /home/weewx/weewx-data /home/weewx/weewx-build
   
    USER weewx
 
