@@ -13,6 +13,7 @@
 
 # Updated 20/09/2026 to ensure --build-arg values are available in runtime
 # Updated 01/10/2026 as a common basis for old and new belchertown skins
+# Updated 22/10/226 to load pob v3.0.0 ilo of 1.8.0 for testing purposes
 
 # set global arguments
 
@@ -95,7 +96,11 @@ FROM python:trixie AS build-stage
         echo "$out" | grep -q "Finished installing extension" || { echo "ERROR: extension install did not complete: $1" >&2; exit 1; }; \
     } \
     ## Belchertown-old extension - v1.8 always installed as a basis for mju "old-belchertown"
-    && install_ext https://github.com/uajqq/weewx-belchertown-new/archive/refs/tags/v1.8-new-belchertown.tar.gz --yes \
+    ## && install_ext https://github.com/uajqq/weewx-belchertown-new/archive/refs/tags/v1.8-new-belchertown.tar.gz --yes \
+    
+    ## Belchertown-old extension - v3.0.0 re-architected version installed
+    && install_ext https://github.com/poblabs/weewx-belchertown/releases/download/weewx-belchertown-3.0.0/weewx-belchertown-3.0.0.tar.gz --yes \
+    
     ## Belchertown-new extension
     && install_ext https://github.com/uajqq/weewx-belchertown-new/archive/refs/tags/$BELCHERTOWN_VERSION.zip --yes \
     ## Interceptor Driver
